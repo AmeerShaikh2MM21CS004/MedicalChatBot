@@ -1,124 +1,320 @@
 {
-   "intents":[
-      {
-         "tag":"greeting",
-         "patterns":[
-            "Hi there",
-            "How are you",
-            "Is anyone there?",
-            "Hey",
-            "Hola",
-            "Hello",
-            "Good day"
-         ],
-         "responses":[
-            "Hello, thanks for asking",
-            "Good to see you again",
-            "Hi there, how can I help?"
-         ],
-         "context":[
-            ""
-         ]
-      },
-      {
-         "tag":"goodbye",
-         "patterns":[
-            "Bye",
-            "See you later",
-            "Goodbye",
-            "Nice chatting to you, bye",
-            "Till next time"
-         ],
-         "responses":[
-            "See you!",
-            "Have a nice day",
-            "Bye! Come back again soon."
-         ],
-         "context":[
-            ""
-         ]
-      },
-      {
-         "tag":"thanks",
-         "patterns":[
-            "Thanks",
-            "Thank you",
-            "That's helpful",
-            "Awesome, thanks",
-            "Thanks for helping me"
-         ],
-         "responses":[
-            "Happy to help!",
-            "Any time!",
-            "My pleasure"
-         ],
-         "context":[
-            ""
-         ]
-      },
-      {
-         "tag":"noanswer",
-         "patterns":[
-            
-         ],
-         "responses":[
-            "Sorry, can't understand you",
-            "Please give me more info",
-            "Not sure I understand"
-         ],
-         "context":[
-            ""
-         ]
-      },
-      {
-         "tag":"options",
-         "patterns":[
-            "How you could help me?",
-            "What you can do?",
-            "What help you provide?",
-            "How you can be helpful?",
-            "What support is offered"
-         ],
-         "responses":[
-            "I am a personal assistant of Balaji Srinivasan and I am a Python fan",
-            "I am a Python fanboy and a subscriber of Balaji Srinivasan's YouTube channel"
-         ],
-         "context":[
-            ""
-         ]
-      },
-      {
-         "tag":"python_is_best",
-         "patterns":[
-            "Which is the best programming language?",
-            "Can you tell me the best language ever?",
-            "What language can I start for programming",
-            "Is Python language an awesome language?",
-            "I am a beginner and I need to learn a new language"
-         ],
-         "responses":[
-            "Without a doubt, Python is the most BEAUTIFUL language ever! You can start learning it anytime",
-            "I am a fan of Python. It's my favorite ever. If you don't believe me, try it yourself"
-         ],
-         "context":[
-            ""
-         ]
-      },
-      {
-         "tag":"joke",
-         "patterns":[
-            "tell me a joke",
-            "can you tell me a joke",
-            "make some fun",
-            "make me laugh and do some funny joke",
-            "tell me a joke"
-         ],
-         "responses":[
-            "How do functions break up? \n They stop calling each other."
-         ],
-         "context":[
-            ""
-         ]
-      }
-   ]
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi there",
+        "How are you",
+        "Is anyone there?",
+        "Hey",
+        "Hola",
+        "Hello",
+        "Good day"
+      ],
+      "responses": [
+        "Hello! How can I assist you today?",
+        "Hi there, how can I help?",
+        "Good to see you. What can I do for you?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "See you later",
+        "Goodbye",
+        "Nice chatting to you, bye",
+        "Till next time"
+      ],
+      "responses": [
+        "Goodbye! Take care.",
+        "See you again soon!",
+        "Have a great day!"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks",
+        "Thank you",
+        "That's helpful",
+        "Awesome, thanks",
+        "Thanks for helping me"
+      ],
+      "responses": [
+        "You're welcome!",
+        "Happy to help!",
+        "My pleasure."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "noanswer",
+      "patterns": [],
+      "responses": [
+        "I'm sorry, I didn't catch that.",
+        "Can you please provide more details?",
+        "I'm not sure I understand. Could you rephrase?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "options",
+      "patterns": [
+        "How can you help me?",
+        "What can you do?",
+        "What services do you offer?",
+        "What support is provided?",
+        "What are your features?"
+      ],
+      "responses": [
+        "I can answer medical questions, book appointments, provide health tips, and much more.",
+        "As your medical assistant, I can help you understand symptoms, suggest care options, and connect you to doctors."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "python_is_best",
+      "patterns": [
+        "Which is the best programming language?",
+        "Can you tell me the best language ever?",
+        "What language can I start with?",
+        "Is Python awesome?",
+        "I’m a beginner, which language should I learn?"
+      ],
+      "responses": [
+        "Python is a fantastic language for beginners and professionals alike!",
+        "I recommend Python. It's powerful, versatile, and easy to learn!"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "joke",
+      "patterns": [
+        "Tell me a joke",
+        "Can you make me laugh?",
+        "Do you know a funny joke?",
+        "Make me laugh",
+        "Say something funny"
+      ],
+      "responses": [
+        "Why did the programmer quit his job? Because he didn't get arrays.",
+        "How do functions break up? They stop calling each other.",
+        "Why was the JavaScript developer sad? Because he didn't 'null' his feelings."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "symptom_checker",
+      "patterns": [
+        "I have a headache",
+        "My stomach hurts",
+        "I am feeling dizzy",
+        "I feel tired",
+        "I have a fever",
+        "What does a sore throat mean?"
+      ],
+      "responses": [
+        "I'm sorry you're feeling that way. You should consider seeing a doctor. Would you like me to find one nearby?",
+        "That could be a symptom of something mild or serious. Please consult a healthcare provider."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "book_appointment",
+      "patterns": [
+        "I want to book a doctor's appointment",
+        "Schedule a checkup",
+        "Can I see a doctor tomorrow?",
+        "I need an appointment",
+        "Book me a visit to the clinic"
+      ],
+      "responses": [
+        "Sure, I can help you book an appointment. Please provide the date and your preferred time.",
+        "Let's get that scheduled. What kind of doctor would you like to see?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "covid_info",
+      "patterns": [
+        "What are COVID-19 symptoms?",
+        "Tell me about coronavirus",
+        "How does COVID spread?",
+        "Is the pandemic over?",
+        "Should I take the COVID vaccine?"
+      ],
+      "responses": [
+        "Common symptoms include fever, cough, fatigue, and loss of taste or smell.",
+        "COVID-19 spreads mainly through respiratory droplets. Masks and vaccines help reduce the risk."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "mental_health",
+      "patterns": [
+        "I'm feeling depressed",
+        "I have anxiety",
+        "Can I talk to someone?",
+        "I need mental health support",
+        "I’m not okay mentally"
+      ],
+      "responses": [
+        "Your mental health is important. Please talk to a licensed therapist or counselor. I'm here to listen too.",
+        "I'm sorry you're feeling this way. Would you like help finding a mental health professional?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "diet_tips",
+      "patterns": [
+        "Give me a healthy diet tip",
+        "What should I eat to stay fit?",
+        "Suggest a diet plan",
+        "What food is good for weight loss?"
+      ],
+      "responses": [
+        "Try eating more fruits, vegetables, lean protein, and drinking plenty of water. Avoid processed foods.",
+        "A balanced diet with regular meals and exercise works best. Would you like a custom plan?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "emergency",
+      "patterns": [
+        "I need help immediately",
+        "This is an emergency",
+        "Call ambulance",
+        "I'm in danger",
+        "It's urgent"
+      ],
+      "responses": [
+        "If this is a medical emergency, please call emergency services or go to the nearest hospital immediately.",
+        "I'm not equipped to handle emergencies. Please call your local emergency number."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "skin_conditions",
+      "patterns": [
+        "I have a rash",
+        "What causes acne?",
+        "I have eczema",
+        "My skin is itching",
+        "What's this bump on my arm?"
+      ],
+      "responses": [
+        "Skin conditions vary. It's best to see a dermatologist for an accurate diagnosis.",
+        "Itching or rashes could be due to allergies or infections. Would you like to connect with a skin specialist?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "pregnancy",
+      "patterns": [
+        "I think I’m pregnant",
+        "What are pregnancy symptoms?",
+        "How to know if I'm pregnant?",
+        "I missed my period",
+        "Is it safe to take this medicine during pregnancy?"
+      ],
+      "responses": [
+        "You may want to take a home pregnancy test or consult a gynecologist.",
+        "Pregnancy symptoms include nausea, fatigue, and missed periods. Please speak with a doctor to confirm."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "medication_info",
+      "patterns": [
+        "What is paracetamol used for?",
+        "Can I take ibuprofen?",
+        "Is this medicine safe?",
+        "What does amoxicillin treat?",
+        "How often should I take my meds?"
+      ],
+      "responses": [
+        "I can provide general info, but always check with a doctor or pharmacist before taking medication.",
+        "That medication treats certain conditions, but dosage and safety depend on your health. Please confirm with a professional."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "diabetes",
+      "patterns": [
+        "What is diabetes?",
+        "How to control blood sugar?",
+        "Can I reverse diabetes?",
+        "What are diabetes symptoms?",
+        "Is insulin necessary?"
+      ],
+      "responses": [
+        "Diabetes is a condition where blood sugar levels are too high. Management includes diet, exercise, and possibly insulin.",
+        "Controlling diabetes involves regular checkups, healthy eating, and physical activity. Want tips?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "hypertension",
+      "patterns": [
+        "What is high blood pressure?",
+        "How to lower blood pressure?",
+        "What are symptoms of hypertension?",
+        "Is hypertension dangerous?",
+        "Can I manage blood pressure without medicine?"
+      ],
+      "responses": [
+        "Hypertension often has no symptoms but can cause serious issues. Regular checks and a low-sodium diet help.",
+        "Exercise, stress reduction, and medication can manage hypertension. Consult your doctor for a plan."
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "vaccine_schedule",
+      "patterns": [
+        "What vaccines should adults get?",
+        "When do babies get shots?",
+        "Is the flu vaccine necessary?",
+        "What is the vaccine schedule?",
+        "Which vaccines are mandatory?"
+      ],
+      "responses": [
+        "Vaccination schedules depend on age and location. I recommend checking with your healthcare provider.",
+        "Routine vaccines include MMR, flu, tetanus, and COVID. Want me to list them by age group?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "allergy_info",
+      "patterns": [
+        "I'm allergic to peanuts",
+        "What is anaphylaxis?",
+        "Can allergies cause rashes?",
+        "I have seasonal allergies",
+        "What are common allergens?"
+      ],
+      "responses": [
+        "Allergies can range from mild to life-threatening. Avoid triggers and carry medication if needed.",
+        "Common allergens include pollen, dust, food, and medications. Would you like tips on managing symptoms?"
+      ],
+      "context": [""]
+    },
+    {
+      "tag": "sleep_issues",
+      "patterns": [
+        "I can't sleep",
+        "What causes insomnia?",
+        "How to sleep better?",
+        "Why am I tired all the time?",
+        "I wake up during the night"
+      ],
+      "responses": [
+        "Sleep issues can be due to stress, diet, or health problems. Try a regular routine and limit screens before bed.",
+        "If it continues, consult a sleep specialist or your doctor for evaluation and treatment."
+      ],
+      "context": [""]
+    }
+  ]
 }

@@ -65,53 +65,85 @@ def chatbot_response(msg):
 
 
 #Creating GUI with tkinter
-import tkinter
+import tkinter as tk
 from tkinter import *
-
+from tkinter import font
 
 def send():
-    msg = EntryBox.get("1.0",'end-1c').strip()
-    EntryBox.delete("0.0",END)
+    msg = EntryBox.get("1.0", 'end-1c').strip()
+    EntryBox.delete("0.0", END)
 
     if msg != '':
         ChatLog.config(state=NORMAL)
-        ChatLog.insert(END, "You: " + msg + '\n\n')
-        ChatLog.config(foreground="#442265", font=("Verdana", 12 ))
-    
+        ChatLog.insert(END, "🧑‍💼 You:\n", "user_label")
+        ChatLog.insert(END, msg + '\n\n', "user_msg")
+        ChatLog.config(foreground="#003366", font=("Segoe UI", 12))
+
         res = chatbot_response(msg)
-        ChatLog.insert(END, "Bot: " + res + '\n\n')
-            
+        ChatLog.insert(END, "🤖 MedBot:\n", "bot_label")
+        ChatLog.insert(END, res + '\n\n', "bot_msg")
+
         ChatLog.config(state=DISABLED)
         ChatLog.yview(END)
- 
 
-base = Tk()
-base.title("Chatbot")
-base.geometry("400x500")
-base.resizable(width=FALSE, height=FALSE)
+# Main window
+base = tk.Tk()
+base.title("🩺 MedBot Assistant - AI Medical Query")
+base.geometry("600x700")
+base.resizable(width=False, height=False)
+base.configure(bg="#f0f4f7")
 
-#Create Chat window
-ChatLog = Text(base, bd=0, bg="white", height="8", width="50", font="Arial",)
+# Header Frame
+header_frame = Frame(base, bg="#007acc", height=70)
+header_frame.pack(fill=X)
 
+header_label = Label(header_frame, text="🩺 MedBot - Your Healthcare Companion", bg="#007acc", fg="white", font=("Segoe UI", 18, 'bold'))
+header_label.pack(pady=15)
+
+# Chat frame
+chat_frame = Frame(base, bg="#f0f4f7")
+chat_frame.pack(padx=10, pady=5, fill=BOTH, expand=True)
+
+ChatLog = Text(chat_frame, bd=0, bg="white", fg="#333", height="8", width="50", font=("Segoe UI", 12), wrap=WORD)
 ChatLog.config(state=DISABLED)
 
-#Bind scrollbar to Chat window
-scrollbar = Scrollbar(base, command=ChatLog.yview, cursor="heart")
+scrollbar = Scrollbar(chat_frame, command=ChatLog.yview, cursor="hand2")
 ChatLog['yscrollcommand'] = scrollbar.set
 
-#Create Button to send message
-SendButton = Button(base, font=("Verdana",12,'bold'), text="Send", width="12", height=5,
-                    bd=0, bg="#25cdf7", activebackground="#3c9d9b",fg='#ffffff',
-                    command= send )
+ChatLog.tag_config("user_label", foreground="#006699", font=("Segoe UI", 11, "bold"))
+ChatLog.tag_config("bot_label", foreground="#228B22", font=("Segoe UI", 11, "bold"))
+ChatLog.tag_config("user_msg", foreground="#003366", font=("Segoe UI", 12))
+ChatLog.tag_config("bot_msg", foreground="#000000", font=("Segoe UI", 12))
 
-#Create the box to enter message
-EntryBox = Text(base, bd=0, bg="white",width="29", height="5", font="Arial")
+ChatLog.grid(row=0, column=0, sticky="nsew", padx=(10,0), pady=5)
+scrollbar.grid(row=0, column=1, sticky='ns', pady=5)
+chat_frame.grid_rowconfigure(0, weight=1)
+chat_frame.grid_columnconfigure(0, weight=1)
 
+# Entry + Button Frame
+entry_frame = Frame(base, bg="#f0f4f7")
+entry_frame.pack(fill=X, padx=10, pady=10)
 
-#Place all components on the screen
-scrollbar.place(x=376,y=6, height=386)
-ChatLog.place(x=6,y=6, height=386, width=370)
-EntryBox.place(x=128, y=401, height=90, width=265)
-SendButton.place(x=6, y=401, height=90)
+EntryBox = Text(entry_frame, bd=1, bg="white", width=60, height=4, font=("Segoe UI", 11))
+EntryBox.pack(side=LEFT, padx=(0, 10), pady=5)
+
+SendButton = Button(
+    entry_frame,
+    font=("Segoe UI", 12, 'bold'),
+    text="Send",
+    width=12,
+    height=2,
+    bd=0,
+    bg="#28a745",
+    activebackground="#218838",
+    fg='white',
+    command=send
+)
+SendButton.pack(side=RIGHT, pady=5)
+
+# Footer
+footer = Label(base, text="MedBot © 2025 | Personal Healthcare Assistant", bg="#f0f4f7", fg="#666", font=("Segoe UI", 9))
+footer.pack(pady=(0, 10))
 
 base.mainloop()
+

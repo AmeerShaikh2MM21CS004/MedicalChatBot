@@ -1,5 +1,5 @@
 keras_nightly
-tensorflow
+tensorflow==2.5.0
 numpy
 nltk
 keras
