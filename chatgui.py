@@ -1,149 +1,103 @@
 import nltk
 from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
-import pickle
-import numpy as np
 
-from tensorflow.keras.models import load_model
-model = load_model('chatbot_model.h5')
+import numpy as np
+import pickle
 import json
 import random
+from tkinter import *
+from tensorflow.keras.models import load_model
+
+# Load assets
+model = load_model('chatbot_model.h5')
 intents = json.loads(open('intents.json').read())
-words = pickle.load(open('words.pkl','rb'))
-classes = pickle.load(open('classes.pkl','rb'))
+words = pickle.load(open('words.pkl', 'rb'))
+classes = pickle.load(open('classes.pkl', 'rb'))
 
-
+# --- NLP Functions ---
 def clean_up_sentence(sentence):
-    # tokenize the pattern - split words into array
     sentence_words = nltk.word_tokenize(sentence)
-    # stem each word - create short form for word
     sentence_words = [lemmatizer.lemmatize(word.lower()) for word in sentence_words]
     return sentence_words
 
-# return bag of words array: 0 or 1 for each word in the bag that exists in the sentence
-
-def bow(sentence, words, show_details=True):
-    # tokenize the pattern
+def bow(sentence, words, show_details=False):
     sentence_words = clean_up_sentence(sentence)
-    # bag of words - matrix of N words, vocabulary matrix
-    bag = [0]*len(words)  
+    bag = [0] * len(words)
     for s in sentence_words:
-        for i,w in enumerate(words):
-            if w == s: 
-                # assign 1 if current word is in the vocabulary position
+        for i, w in enumerate(words):
+            if w == s:
                 bag[i] = 1
-                if show_details:
-                    print ("found in bag: %s" % w)
-    return(np.array(bag))
+    return np.array(bag)
 
 def predict_class(sentence, model):
-    # filter out predictions below a threshold
-    p = bow(sentence, words,show_details=False)
+    p = bow(sentence, words, show_details=False)
     res = model.predict(np.array([p]))[0]
     ERROR_THRESHOLD = 0.25
-    results = [[i,r] for i,r in enumerate(res) if r>ERROR_THRESHOLD]
-    # sort by strength of probability
+    results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
     results.sort(key=lambda x: x[1], reverse=True)
-    return_list = []
-    for r in results:
-        return_list.append({"intent": classes[r[0]], "probability": str(r[1])})
+    return_list = [{"intent": classes[r[0]], "probability": str(r[1])} for r in results]
     return return_list
 
-def getResponse(ints, intents_json):
+def get_response(ints, intents_json):
+    if not ints:
+        return "I'm sorry, I don't understand that."
     tag = ints[0]['intent']
-    list_of_intents = intents_json['intents']
-    for i in list_of_intents:
-        if(i['tag']== tag):
-            result = random.choice(i['responses'])
-            break
-    return result
+    for i in intents_json['intents']:
+        if i['tag'] == tag:
+            return random.choice(i['responses'])
+    return "I'm not sure how to help with that."
 
-def chatbot_response(msg):
-    ints = predict_class(msg, model)
-    res = getResponse(ints, intents)
+def chatbot_response(text):
+    ints = predict_class(text, model)
+    res = get_response(ints, intents)
     return res
 
-
-#Creating GUI with tkinter
-import tkinter as tk
-from tkinter import *
-from tkinter import font
-
+# --- GUI Actions ---
 def send():
     msg = EntryBox.get("1.0", 'end-1c').strip()
     EntryBox.delete("0.0", END)
-
     if msg != '':
         ChatLog.config(state=NORMAL)
-        ChatLog.insert(END, "🧑‍💼 You:\n", "user_label")
+        ChatLog.insert(END, "\U0001F464 You:\n", "user_label")
         ChatLog.insert(END, msg + '\n\n', "user_msg")
-        ChatLog.config(foreground="#003366", font=("Segoe UI", 12))
 
         res = chatbot_response(msg)
-        ChatLog.insert(END, "🤖 MedBot:\n", "bot_label")
+        ChatLog.insert(END, "\U0001F916 MedBot:\n", "bot_label")
         ChatLog.insert(END, res + '\n\n', "bot_msg")
 
         ChatLog.config(state=DISABLED)
         ChatLog.yview(END)
 
-# Main window
-base = tk.Tk()
-base.title("🩺 MedBot Assistant - AI Medical Query")
-base.geometry("600x700")
+# --- GUI Layout ---
+base = Tk()
+base.title("🩺 Medical Chatbot")
+base.geometry("500x600")
 base.resizable(width=False, height=False)
-base.configure(bg="#f0f4f7")
+base.configure(bg='#f0f0f0')
 
-# Header Frame
-header_frame = Frame(base, bg="#007acc", height=70)
-header_frame.pack(fill=X)
-
-header_label = Label(header_frame, text="🩺 MedBot - Your Healthcare Companion", bg="#007acc", fg="white", font=("Segoe UI", 18, 'bold'))
-header_label.pack(pady=15)
-
-# Chat frame
-chat_frame = Frame(base, bg="#f0f4f7")
-chat_frame.pack(padx=10, pady=5, fill=BOTH, expand=True)
-
-ChatLog = Text(chat_frame, bd=0, bg="white", fg="#333", height="8", width="50", font=("Segoe UI", 12), wrap=WORD)
+ChatLog = Text(base, bd=0, bg="white", height="8", width="50", font=("Segoe UI", 12), wrap=WORD)
 ChatLog.config(state=DISABLED)
+ChatLog.tag_configure("user_label", foreground="blue", font=("Segoe UI", 10, "bold"))
+ChatLog.tag_configure("bot_label", foreground="green", font=("Segoe UI", 10, "bold"))
+ChatLog.tag_configure("user_msg", lmargin1=10, foreground="black")
+ChatLog.tag_configure("bot_msg", lmargin1=10, foreground="black")
 
-scrollbar = Scrollbar(chat_frame, command=ChatLog.yview, cursor="hand2")
+scrollbar = Scrollbar(base, command=ChatLog.yview)
 ChatLog['yscrollcommand'] = scrollbar.set
 
-ChatLog.tag_config("user_label", foreground="#006699", font=("Segoe UI", 11, "bold"))
-ChatLog.tag_config("bot_label", foreground="#228B22", font=("Segoe UI", 11, "bold"))
-ChatLog.tag_config("user_msg", foreground="#003366", font=("Segoe UI", 12))
-ChatLog.tag_config("bot_msg", foreground="#000000", font=("Segoe UI", 12))
+entry_frame = Frame(base, bg="#f0f0f0")
+EntryBox = Text(entry_frame, bd=0, bg="white", width="36", height="3", font=("Segoe UI", 12))
+EntryBox.bind("<Return>", lambda event: send())
 
-ChatLog.grid(row=0, column=0, sticky="nsew", padx=(10,0), pady=5)
-scrollbar.grid(row=0, column=1, sticky='ns', pady=5)
-chat_frame.grid_rowconfigure(0, weight=1)
-chat_frame.grid_columnconfigure(0, weight=1)
+SendButton = Button(entry_frame, font=("Segoe UI", 12, 'bold'), text="Send", width=12, height=2, bd=0,
+                    bg="#007acc", activebackground="#005f99", fg='white', command=send)
 
-# Entry + Button Frame
-entry_frame = Frame(base, bg="#f0f4f7")
-entry_frame.pack(fill=X, padx=10, pady=10)
-
-EntryBox = Text(entry_frame, bd=1, bg="white", width=60, height=4, font=("Segoe UI", 11))
-EntryBox.pack(side=LEFT, padx=(0, 10), pady=5)
-
-SendButton = Button(
-    entry_frame,
-    font=("Segoe UI", 12, 'bold'),
-    text="Send",
-    width=12,
-    height=2,
-    bd=0,
-    bg="#28a745",
-    activebackground="#218838",
-    fg='white',
-    command=send
-)
-SendButton.pack(side=RIGHT, pady=5)
-
-# Footer
-footer = Label(base, text="MedBot © 2025 | Personal Healthcare Assistant", bg="#f0f4f7", fg="#666", font=("Segoe UI", 9))
-footer.pack(pady=(0, 10))
+# Placement
+scrollbar.place(x=470, y=6, height=486)
+ChatLog.place(x=6, y=6, height=486, width=460)
+entry_frame.place(x=6, y=500, width=488, height=90)
+EntryBox.pack(side=LEFT, padx=(5, 5), pady=5)
+SendButton.pack(side=RIGHT, padx=(5, 5), pady=5)
 
 base.mainloop()
-
