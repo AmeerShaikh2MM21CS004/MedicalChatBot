@@ -13,6 +13,15 @@ A simple AI-powered chatbot built with Natural Language Processing (NLP), Machin
 - Supports training with new data
 
 ---
+## 📸 Preview
+
+### GUI Chatbot Interface  
+![Chatbot GUI](images/gui.png)
+
+### Training Output Preview  
+![Training Output](images/data_train.png)
+
+---
 
 ## 📂 Project Structure
 
